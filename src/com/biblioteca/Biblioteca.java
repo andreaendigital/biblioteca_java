@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package com.biblioteca;
+import com.biblioteca.service.ServicioBiblioteca;
+import com.biblioteca.ui.MenuPrincipal;
 
 /**
  *
@@ -15,6 +17,12 @@ public class Biblioteca {
      */
     public static void main(String[] args) {
         // El punto de entrada principal del programa,
+        ServicioBiblioteca servicioBiblioteca = new ServicioBiblioteca();
+        MenuPrincipal menu = new MenuPrincipal(servicioBiblioteca);
+        menu.iniciar();
+
     }
     
 }
+
+

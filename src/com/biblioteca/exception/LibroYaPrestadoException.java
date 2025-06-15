@@ -8,6 +8,9 @@ package com.biblioteca.exception;
  *
  * @author Andrea
  */
-public class LibroYaPrestadoException {
-    
+
+public class LibroYaPrestadoException extends Exception {
+    public LibroYaPrestadoException(String mensaje) {
+        super(mensaje);
+    }
 }
