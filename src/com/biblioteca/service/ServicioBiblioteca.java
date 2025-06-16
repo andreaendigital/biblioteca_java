@@ -7,12 +7,12 @@ package com.biblioteca.service;
 import com.biblioteca.model.Libro;
 import com.biblioteca.model.Usuario;
 import com.biblioteca.exception.LibroNoEncontradoException;
+import com.biblioteca.exception.LibroNoPrestadoException;
 import com.biblioteca.exception.LibroYaPrestadoException;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 /**
  *
  * @author Andrea
@@ -65,14 +65,13 @@ public class ServicioBiblioteca {
         // System.out.println("Libro '" + libro.getTitulo() + "' prestado a usuario con ID: " + idUsuario); // Quitar System.out
     }
 
-    public void devolverLibro(String tituloLibro) throws LibroNoEncontradoException {
+    public void devolverLibro(String tituloLibro) throws LibroNoEncontradoException, LibroNoPrestadoException {
         Libro libro = buscarLibroPorTitulo(tituloLibro);
 
         if (!libro.isPrestado()) {
             // Considerar lanzar una excepción específica si el libro NO estaba prestado
             // throw new LibroNoPrestadoException("El libro '" + tituloLibro + "' no estaba prestado.");
-            System.out.println("Advertencia: El libro '" + tituloLibro + "' no estaba prestado.");
-            return;
+            throw new LibroNoPrestadoException("Advertencia: El libro '" + tituloLibro + "' no estaba prestado.");
         }
 
         libro.setPrestado(false);
