@@ -103,7 +103,7 @@ public class MenuPrincipal {
 
       private void buscarLibro() {
        
-        System.out.print("Ingrese el título del libro a buscar: ");
+        System.out.print("Ingrese el titulo del libro a buscar: ");
         String tituloBuscar = scanner.nextLine();
         try {
             Libro encontrado = servicioBiblioteca.buscarLibroPorTitulo(tituloBuscar);
