@@ -26,7 +26,8 @@ Para concretar esta actividad, deberás realizar los siguientes pasos:
 - Define atributos y métodos: por ejemplo, Libro podría tener atributos como título, autor, y estado (disponible o prestado).
 
 👌 3. Implementa el manejo de excepciones
-  a)	Búsqueda de un libro inexistente
+ 
+a)	Búsqueda de un libro inexistente
   - Crea una excepción personalizada, por ejemplo, ‘LibroNoEncontradoException’.
   - Utiliza ‘try-catch’ en el método de búsqueda para capturar esta excepción.
 
