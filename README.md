@@ -19,43 +19,43 @@ Además, para integrar archivos externos de CSV y texto, puedes utilizar las cla
 Para concretar esta actividad, deberás realizar los siguientes pasos: 
 
 👌 1.  Configura el entorno de desarrollo
-Crear un Nuevo Proyecto en NetBeans y selecciona "Nuevo Proyecto". Elige "Aplicación Java" y dale un nombre a tu proyecto.
+- Crear un Nuevo Proyecto en NetBeans y selecciona "Nuevo Proyecto". Elige "Aplicación Java" y dale un nombre a tu proyecto.
 
 👌 2. Diseña la estructura del proyecto
-  •	Crea clases principales: podrías necesitar clases como Libro, Biblioteca, Usuario.
-  •	Define atributos y métodos: por ejemplo, Libro podría tener atributos como título, autor, y estado (disponible o prestado).
+- Crea clases principales: podrías necesitar clases como Libro, Biblioteca, Usuario.
+- Define atributos y métodos: por ejemplo, Libro podría tener atributos como título, autor, y estado (disponible o prestado).
 
 👌 3. Implementa el manejo de excepciones
   a)	Búsqueda de un libro inexistente
-    •	Crea una excepción personalizada, por ejemplo, ‘LibroNoEncontradoException’.
-    •	Utiliza ‘try-catch’ en el método de búsqueda para capturar esta excepción.
+  - Crea una excepción personalizada, por ejemplo, ‘LibroNoEncontradoException’.
+  - Utiliza ‘try-catch’ en el método de búsqueda para capturar esta excepción.
 
   b)	Préstamo de un libro ya prestado
-    •	Crea otra excepción personalizada, como ‘LibroYaPrestadoException’.
+  - Crea otra excepción personalizada, como ‘LibroYaPrestadoException’.
 
   c)	Introducción de datos incorrectos
-    •	Utiliza ‘InputMismatchException’ para manejar errores de formato en la entrada del usuario.
-    •	Encierra la lógica de entrada del usuario en un bloque ‘try-catch’.
+  - Utiliza ‘InputMismatchException’ para manejar errores de formato en la entrada del usuario.
+  - Encierra la lógica de entrada del usuario en un bloque ‘try-catch’.
 
   d)	Usa bloques ‘try’
-    •	Rodea con un bloque ‘try’ cualquier código que pueda lanzar una excepción.
+  - Rodea con un bloque ‘try’ cualquier código que pueda lanzar una excepción.
 
   e)	Define bloques ‘catch’
-    •	Para cada tipo de excepción, define un bloque ‘catch’ específico.
-    •	En cada ‘catch’, maneja la excepción de manera adecuada, como informar al usuario.
+  - Para cada tipo de excepción, define un bloque ‘catch’ específico.
+  - En cada ‘catch’, maneja la excepción de manera adecuada, como informar al usuario.
 
   f)	No captures excepciones inmanejables
-    •	Evita los bloques ‘catch’ genéricos que capturan ‘Exception’.
-    •	Solo captura excepciones que entiendas y puedas manejar.
+  - Evita los bloques ‘catch’ genéricos que capturan ‘Exception’.
+  - Solo captura excepciones que entiendas y puedas manejar.
 
   g)	No Detectes excepciones Sin control
-    •	No uses ‘try-catch’ si no puedes hacer algo útil con la excepción.
+  - No uses ‘try-catch’ si no puedes hacer algo útil con la excepción.
 
   h)	Relanza excepciones con ‘throw’:
-    •	Si capturas una excepción que no puedes manejar completamente, puedes relanzarla usando ‘throw’.
+  - Si capturas una excepción que no puedes manejar completamente, puedes relanzarla usando ‘throw’.
 
   i)	Usa variables de excepción:
-    •	En los bloques ‘catch’, utiliza la variable de excepción para obtener detalles sobre el error y mostrar mensajes útiles.
+  - En los bloques ‘catch’, utiliza la variable de excepción para obtener detalles sobre el error y mostrar mensajes útiles.
 
 
 ## Visuales :mage_woman:
