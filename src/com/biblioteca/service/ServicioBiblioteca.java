@@ -13,6 +13,8 @@ import com.biblioteca.exception.LibroYaPrestadoException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.TreeSet;
 /**
  *
  * @author Andrea
@@ -22,14 +24,28 @@ public class ServicioBiblioteca {
     
     private ArrayList<Libro> libros;
     private HashMap<String, Usuario> usuarios;
+    private HashSet<String> titulosUnicosLibros;
+    private TreeSet<Libro> catalogoOrdenadoLibros;
 
     public ServicioBiblioteca() {
         this.libros = new ArrayList<>();
         this.usuarios = new HashMap<>();
+        this.titulosUnicosLibros = new HashSet<>();
+        this.catalogoOrdenadoLibros = new TreeSet<>();
+    }
+    
+    public HashSet<String> obtenerTitulosUnicosLibros(){
+        return new HashSet<>(titulosUnicosLibros); //regresa una copia
+    }
+    
+    public TreeSet<Libro> obtenerCatalogoOrdenadoLibros(){
+        return new TreeSet<>(catalogoOrdenadoLibros);//regresa una copia
     }
 
     public void agregarLibro(Libro libro) {
         libros.add(libro);
+        titulosUnicosLibros.add(libro.getTitulo()); //Cuando un libro nuevo es agregado se agrega al HashSet
+        catalogoOrdenadoLibros.add(libro);
         // System.out.println("Libro agregado: " + libro.getTitulo()); // Quitar System.out de la capa de servicio
     }
 

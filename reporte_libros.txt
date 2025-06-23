@@ -2,6 +2,8 @@ Reporte de Libros en Biblioteca
 
 Título: 'Cien años de soledad', Autor: 'Gabriel García Márquez', ISBN: '978-0307474728', Estado: Disponible
 Título: 'Don Quijote de la Mancha', Autor: 'Miguel de Cervantes', ISBN: '978-8424119859', Estado: Disponible
+Título: 'Cien años de soledad', Autor: 'Gabriel García Márquez', ISBN: '978-0307474728', Estado: Disponible
+Título: 'Don Quijote de la Mancha', Autor: 'Miguel de Cervantes', ISBN: '978-8424119859', Estado: Disponible
 Título: 'El Aleph', Autor: 'Jorge Luis Borges', ISBN: '978-9871101112', Estado: Disponible
 Título: 'Rayuela', Autor: 'Julio Cortázar', ISBN: '978-9500732345', Estado: Disponible
 Título: 'La Casa de los Espíritus', Autor: 'Isabel Allende', ISBN: '978-0307474735', Estado: Disponible

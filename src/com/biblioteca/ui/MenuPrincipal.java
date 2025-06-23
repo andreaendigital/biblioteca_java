@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.HashMap;   
+import java.util.HashSet;   
+import java.util.TreeSet;   
+import java.util.Map; 
 
 /**
  *
@@ -75,6 +79,12 @@ public class MenuPrincipal {
                     case 4:
                         mostrarTodosLosLibros();
                         break;
+                    case 5:
+                        mostrarTitulosUnicos();
+                        break;
+                    case 6:
+                        //mostrarCatalogoOrdenado();
+                        break;
                     case 0:
                         System.out.println("Saliendo del programa. Hasta luego!");
                         break;
@@ -98,7 +108,9 @@ public class MenuPrincipal {
         System.out.println("1. Buscar libro por titulo");
         System.out.println("2. Prestar libro");
         System.out.println("3. Devolver libro");
-        System.out.println("4. Mostrar todos los libros");
+        System.out.println("4. Mostrar todos los libros (ArrayList)");
+        System.out.println("5. Mostrar títulos únicos de libros (HashSet)"); 
+        System.out.println("6. Mostrar catálogo ordenado de libros (TreeSet)"); 
         System.out.println("0. Salir");
         System.out.print("Ingrese una opcion: ");
     }
@@ -148,5 +160,18 @@ public class MenuPrincipal {
             System.out.println(libro.toString());
         }
     }
+    
+ private void mostrarTitulosUnicos() {
+    HashSet<String> titulos = servicioBiblioteca.obtenerTitulosUnicosLibros();
+    if (titulos.isEmpty()) {
+        System.out.println("No hay títulos únicos de libros en la biblioteca.");
+    } else {
+        System.out.println("\n--- Títulos Únicos de Libros (HashSet) ---");
+        for (String titulo : titulos) {
+            System.out.println("- " + titulo);
+        }
+        System.out.println("------------------------------------------\n");
+    }
+}
 
 }

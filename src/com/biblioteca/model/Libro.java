@@ -8,7 +8,7 @@ package com.biblioteca.model;
  *
  * @author Andrea
  */
-public class Libro {
+public class Libro implements Comparable<Libro> {
     private String titulo;
     private String autor;
     private String isbn;
@@ -37,4 +37,20 @@ public class Libro {
                ", ISBN: '" + isbn + '\'' +
                ", Estado: " + (prestado ? "Prestado" : "Disponible");
     }
+    
+    @Override
+    public int compareTo(Libro otroLibro){
+        //Primero compara por autor ignorando mayúscula o minúscula
+        int comparacionAutor = this.autor.compareToIgnoreCase(otroLibro.getAutor());
+        
+        //Si los autores son diferentes, devuelve el resultado de la comparación
+        if(comparacionAutor != 0){
+            return comparacionAutor;
+        }
+        
+        //Si los autores son los mismos, comparar por título ignorando mayúsucla o minúscula
+        return this.titulo.compareToIgnoreCase(otroLibro.getTitulo());
+    }
+    
+    
 }
