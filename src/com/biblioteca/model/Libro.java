@@ -20,6 +20,13 @@ public class Libro implements Comparable<Libro> {
         this.isbn = isbn;
         this.prestado = false;
     }
+    
+    public Libro (Libro libro) {
+        this.titulo = libro.titulo;
+        this.autor = libro.autor;
+        this.isbn = libro.isbn;
+        this.prestado = false;
+    }
 
     // Getters
     public String getTitulo() { return titulo; }
