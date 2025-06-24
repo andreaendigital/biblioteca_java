@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.TreeSet;
+import java.util.Map;
 
 /**
  *
@@ -75,6 +79,18 @@ public class MenuPrincipal {
                     case 4:
                         mostrarTodosLosLibros();
                         break;
+                    case 5:
+                        mostrarTitulosUnicos();
+                        break;
+                    case 6:
+                        mostrarCatalogoOrdenado();
+                        break;
+                    case 7:
+                        eliminarUsuario();
+                        break;
+                    case 8:
+                        eliminarLibro();
+                        break;
                     case 0:
                         System.out.println("Saliendo del programa. Hasta luego!");
                         break;
@@ -98,13 +114,17 @@ public class MenuPrincipal {
         System.out.println("1. Buscar libro por titulo");
         System.out.println("2. Prestar libro");
         System.out.println("3. Devolver libro");
-        System.out.println("4. Mostrar todos los libros");
+        System.out.println("4. Mostrar todos los libros (ArrayList)");
+        System.out.println("5. Mostrar títulos únicos de libros (HashSet)");
+        System.out.println("6. Mostrar catálogo ordenado de libros (TreeSet)");
+        System.out.println("7. Eliminar usuario.");
+        System.out.println("8. Eliminar libro.");
         System.out.println("0. Salir");
         System.out.print("Ingrese una opcion: ");
     }
 
-      private void buscarLibro() {
-       
+    private void buscarLibro() {
+
         System.out.print("Ingrese el titulo del libro a buscar: ");
         String tituloBuscar = scanner.nextLine();
         try {
@@ -122,7 +142,7 @@ public class MenuPrincipal {
         System.out.print("Ingrese el titulo del libro pedir: ");
         String tituloSolicitado = scanner.nextLine();
         try {
-            servicioBiblioteca.prestarLibro(tituloSolicitado, usuario); 
+            servicioBiblioteca.prestarLibro(tituloSolicitado, usuario);
             System.out.println("\nOperacion realizada.");
         } catch (IllegalArgumentException | LibroNoEncontradoException | LibroYaPrestadoException e) {
             System.err.println("\nError: " + e.getMessage());
@@ -142,11 +162,88 @@ public class MenuPrincipal {
 
     private void mostrarTodosLosLibros() {
         ArrayList<Libro> libros = servicioBiblioteca.obtenerTodosLosLibros();
-        System.out.println("\n=== Listado de Libros ===");
-        System.out.println("=========================");
-        for (Libro libro : libros) {
-            System.out.println(libro.toString());
+        if (libros.isEmpty()) {
+            System.out.println("\nNo hay libros registrados en el sistema.");
+        } else {
+            System.out.println("\n=== Listado de Libros ===");
+            System.out.println("=========================");
+            for (Libro libro : libros) {
+                System.out.println(libro.toString());
+            }
         }
     }
 
+    private void mostrarTitulosUnicos() {
+        HashSet<String> titulos = servicioBiblioteca.obtenerTitulosUnicosLibros();
+        if (titulos.isEmpty()) {
+            System.out.println("No hay títulos únicos de libros en la biblioteca.");
+        } else {
+            System.out.println("\n--- Títulos Únicos de Libros (HashSet) ---");
+            for (String titulo : titulos) {
+                System.out.println("- " + titulo);
+            }
+            System.out.println("------------------------------------------\n");
+        }
+    }
+
+    private void mostrarCatalogoOrdenado() {
+        TreeSet<Libro> titulos = servicioBiblioteca.obtenerCatalogoOrdenadoLibros();
+        if (titulos.isEmpty()) {
+            System.err.println("\nNo hay libros registrados en el sistema.");
+        } else {
+            System.out.println("\n=== Libros ordenados por autor ===");
+            System.out.println("==================================");
+            for (Libro libro : titulos) {
+                System.out.println(libro.toString());
+            }
+        }
+    }
+
+    private void eliminarUsuario() {
+        if (servicioBiblioteca.revisarUsuariosVacios()) {
+            System.err.println("\nNo hay usuarios registrados en el sistema.");
+        } else {
+            System.out.println("\n=== Listado de Usuarios ===");
+            System.out.println("===========================");
+            listarUsuarios();
+            System.out.print ("\nIngrese el ID del usuario a eliminar: ");
+            String id = scanner.nextLine();
+            if (servicioBiblioteca.eliminarUsuario(id)) {
+                System.out.println("\nUsuario eliminado correctamente.");
+            } else {
+                System.err.println("\nError, ID no encontrado");
+            }
+        }
+    }
+
+    private void eliminarLibro() {
+        if (servicioBiblioteca.revisarLibrosVacios()) {
+            System.err.println("\nNo hay libros registrados en el sistema.");
+        } else {
+            System.out.println("\n=== Listado de Libros ===");
+            System.out.println("=========================");
+            listarLibros();
+            System.out.print("\nIngrese el ISBN del libro a eliminar: ");
+            String isbn = scanner.nextLine();
+            if (servicioBiblioteca.eliminarLibro(isbn)) {
+                System.out.println("\nLibro eliminado correctamente.");
+            } else {
+                System.err.println("\nError, ISBN no encontrado");
+            }
+        }
+    }
+
+    private void listarUsuarios() {
+        HashMap<String, Usuario> usuarios = servicioBiblioteca.obtenerTodosLosUsuarios();
+        for (Usuario usuario : usuarios.values()) {
+            System.out.println(usuario.toString());
+        }
+    }
+
+    private void listarLibros() {
+        ArrayList<Libro> titulos = servicioBiblioteca.obtenerTodosLosLibros();
+        for (Libro libro : titulos) {
+            System.out.println(libro.toString());
+        }
+    }
 }

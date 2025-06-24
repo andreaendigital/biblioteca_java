@@ -13,6 +13,9 @@ import com.biblioteca.exception.LibroYaPrestadoException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.TreeSet;
 /**
  *
  * @author Andrea
@@ -22,14 +25,28 @@ public class ServicioBiblioteca {
     
     private ArrayList<Libro> libros;
     private HashMap<String, Usuario> usuarios;
+    private HashSet<String> titulosUnicosLibros;
+    private TreeSet<Libro> catalogoOrdenadoLibros;
 
     public ServicioBiblioteca() {
         this.libros = new ArrayList<>();
         this.usuarios = new HashMap<>();
+        this.titulosUnicosLibros = new HashSet<>();
+        this.catalogoOrdenadoLibros = new TreeSet<>();
+    }
+    
+    public HashSet<String> obtenerTitulosUnicosLibros(){
+        return new HashSet<>(titulosUnicosLibros); //regresa una copia
+    }
+    
+    public TreeSet<Libro> obtenerCatalogoOrdenadoLibros(){
+        return new TreeSet<>(catalogoOrdenadoLibros);//regresa una copia
     }
 
     public void agregarLibro(Libro libro) {
         libros.add(libro);
+        titulosUnicosLibros.add(libro.getTitulo()); //Cuando un libro nuevo es agregado se agrega al HashSet
+        catalogoOrdenadoLibros.add(libro);
         // System.out.println("Libro agregado: " + libro.getTitulo()); // Quitar System.out de la capa de servicio
     }
 
@@ -123,5 +140,34 @@ public class ServicioBiblioteca {
     public HashMap<String, Usuario> obtenerTodosLosUsuarios() {
         return new HashMap<>(usuarios); // Devuelve una copia
     }
-
+    
+    public boolean eliminarUsuario(String id) {
+        return usuarios.remove(id) != null;
+    }
+    
+    public boolean eliminarLibro(String isbn) {
+        Optional<Libro> libro = getLibro(isbn);        
+        if (libro.isPresent()) {
+            Libro libroAEliminar = libro.get();
+            titulosUnicosLibros.remove(libroAEliminar.getTitulo());
+            catalogoOrdenadoLibros.removeIf(book -> book.getIsbn().equals(isbn));
+            libros.removeIf(book -> book.getIsbn().equals(isbn));
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean revisarUsuariosVacios() {
+        return usuarios.isEmpty();
+    }
+    
+    public boolean revisarLibrosVacios() {
+        return libros.isEmpty();
+    }
+    
+    public Optional<Libro> getLibro(String isbn) {
+        return libros.stream()
+               .filter(libro -> libro.getIsbn().equals(isbn))
+               .findFirst();
+    }
 }
