@@ -75,3 +75,22 @@ Manejo del error en caso de no encontrar archivo CSv
 
 - **Andrea Rosero** ⚡  - [Andrea Rosero](https://github.com/andreaendigital)
 - **Miguel Garrido** ⚡  - [Miguel Garrido](https://github.com/m1k1saur1o)
+
+
+
+
+# Bloqueadores y Soluciones del Proyecto PropertyAI Flask
+
+Este documento identifica riesgos potenciales (Bloqueadores) durante las fases de desarrollo e infraestructura del proyecto de valoración automotriz y propone soluciones concretas para mitigar su impacto.
+
+| Bloqueador (Blocker) | Impacto Potencial en el Proyecto | Solución Propuesta (Mitigación) | 
+ | ----- | ----- | ----- | 
+| **1. Modelo ONNX no optimizado** | Tiempos de predicción lentos, fallando el criterio de rendimiento de **< 100ms** por predicción, afectando la experiencia de usuario y la escalabilidad. | **Solución:** Re-exportar el modelo entrenado con diferentes niveles de optimización de ONNX. Usar la versión más reciente y compatible de la librería `onnxruntime` en el Dockerfile para garantizar el mejor rendimiento. | 
+| **2. Firewall de la VM/Host** | El puerto 8080 (o el puerto configurado para Gunicorn) está bloqueado por el firewall de la Máquina Virtual (VM), impidiendo el acceso a la aplicación desde el navegador del host. | **Solución:** Configurar las reglas de seguridad de la VM (ej. usando **`ufw`** en Ubuntu) para **abrir el puerto 8080** al tráfico entrante. Si se usa un proveedor cloud (AWS/Azure/GCP), configurar el **Grupo de Seguridad** para exponer el puerto. | 
+| **3. Latencia del Mapa (Leaflet)** | La carga inicial de las *tiles* (mosaicos) de los mapas o la interacción con Leaflet es lenta, degradando la usabilidad de la interfaz interactiva. | **Solución:** **Asegurar que se usa un CDN rápido y confiable** para las librerías y *tiles* de Leaflet. Se puede implementar un mecanismo de **caching básico en el *frontend*** para las coordenadas frecuentes (si fuera necesario). | 
+| **4. Dependencia de la VM** | Si la configuración de la VM (sistema operativo, librerías base, Docker) falla o se corrompe, el entorno de pruebas desaparece y no se puede replicar fácilmente. | **Solución:** **Documentar el proceso de provisión de la VM** utilizando scripts Bash claros o, preferiblemente, usando una herramienta de IaaS (Infrastructure as Code) como **Vagrant** o **Ansible** para crear la VM de manera automática y reproducible. | 
+| **5. Conflicto de Versiones Python/Librerías ML** | Una versión específica de `scikit-learn` o `pandas` es requerida para el preprocesamiento de datos, pero no es compatible con el `onnxruntime` en el entorno Docker. | **Solución:** Definir y **congelar las versiones de todas las dependencias** en el archivo `requirements.txt`. Usar un *builder pattern* o una imagen base limpia en el Dockerfile para aislar las dependencias de manera estricta. | 
+
+**Conclusión:** Este documento será referenciado en la Historia de Usuario **HU N.1** (Documentación y Riesgos) como entregable clave.
+
+Al copiar únicamente este contenido y pegarlo en el archivo **`BLOCKERS_SOLUTIONS.md`** en VS Code, el formato Markdown debería renderizarse correctamente. Puedes usar la función **"Open Preview to the Side"** de VS Code para verificar que la tabla y el formato sean correctos.
