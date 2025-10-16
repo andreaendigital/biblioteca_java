@@ -79,18 +79,13 @@ Manejo del error en caso de no encontrar archivo CSv
 
 
 
-# Bloqueadores y Soluciones del Proyecto PropertyAI Flask
+# Key Project Blockers
 
-Este documento identifica riesgos potenciales (Bloqueadores) durante las fases de desarrollo e infraestructura del proyecto de valoración automotriz y propone soluciones concretas para mitigar su impacto.
+This summary identifies risks related to dependency management, development infrastructure (Docker/TOML), and workflow tool adoption (Jira/GitHub).
 
-| Bloqueador (Blocker) | Impacto Potencial en el Proyecto | Solución Propuesta (Mitigación) | 
+| Blocker | Potential Impact on the Project | Proposed Solution (Mitigation) | 
  | ----- | ----- | ----- | 
-| **1. Modelo ONNX no optimizado** | Tiempos de predicción lentos, fallando el criterio de rendimiento de **< 100ms** por predicción, afectando la experiencia de usuario y la escalabilidad. | **Solución:** Re-exportar el modelo entrenado con diferentes niveles de optimización de ONNX. Usar la versión más reciente y compatible de la librería `onnxruntime` en el Dockerfile para garantizar el mejor rendimiento. | 
-| **2. Firewall de la VM/Host** | El puerto 8080 (o el puerto configurado para Gunicorn) está bloqueado por el firewall de la Máquina Virtual (VM), impidiendo el acceso a la aplicación desde el navegador del host. | **Solución:** Configurar las reglas de seguridad de la VM (ej. usando **`ufw`** en Ubuntu) para **abrir el puerto 8080** al tráfico entrante. Si se usa un proveedor cloud (AWS/Azure/GCP), configurar el **Grupo de Seguridad** para exponer el puerto. | 
-| **3. Latencia del Mapa (Leaflet)** | La carga inicial de las *tiles* (mosaicos) de los mapas o la interacción con Leaflet es lenta, degradando la usabilidad de la interfaz interactiva. | **Solución:** **Asegurar que se usa un CDN rápido y confiable** para las librerías y *tiles* de Leaflet. Se puede implementar un mecanismo de **caching básico en el *frontend*** para las coordenadas frecuentes (si fuera necesario). | 
-| **4. Dependencia de la VM** | Si la configuración de la VM (sistema operativo, librerías base, Docker) falla o se corrompe, el entorno de pruebas desaparece y no se puede replicar fácilmente. | **Solución:** **Documentar el proceso de provisión de la VM** utilizando scripts Bash claros o, preferiblemente, usando una herramienta de IaaS (Infrastructure as Code) como **Vagrant** o **Ansible** para crear la VM de manera automática y reproducible. | 
-| **5. Conflicto de Versiones Python/Librerías ML** | Una versión específica de `scikit-learn` o `pandas` es requerida para el preprocesamiento de datos, pero no es compatible con el `onnxruntime` en el entorno Docker. | **Solución:** Definir y **congelar las versiones de todas las dependencias** en el archivo `requirements.txt`. Usar un *builder pattern* o una imagen base limpia en el Dockerfile para aislar las dependencias de manera estricta. | 
-
-**Conclusión:** Este documento será referenciado en la Historia de Usuario **HU N.1** (Documentación y Riesgos) como entregable clave.
-
-Al copiar únicamente este contenido y pegarlo en el archivo **`BLOCKERS_SOLUTIONS.md`** en VS Code, el formato Markdown debería renderizarse correctamente. Puedes usar la función **"Open Preview to the Side"** de VS Code para verificar que la tabla y el formato sean correctos.
+| **1. Migration to TOML : Incompatibility in Docker Builds** | The current Dockerfile process assumes pip install -r requirements.txt. Migration requires changing the builder to install dependencies from pyproject.toml or the lock file. | **Solution:** Refactor the Dockerfile to use the native TOML tool flow (e.g., copying pyproject.toml and poetry.lock and running poetry install --no-root). | 
+| **2. Build-Time Dependency Management** | ML dependencies requiring compilation might face issues if the TOML tool doesn't manage them correctly in the Docker build environment. | **Solution:** Identify and isolate complex dependencies. Use a builder pattern or a multi-stage container in Docker to pre-install or configure necessary system tools before Python installation. | 
+| **3. Jira and GitHub Learning Curve** | The team's lack of familiarity with the Jira-GitHub workflow (creating branches with ticket IDs, linking commits, auto-moving statuses). | **Solution:** Conduct a mandatory hands-on workshop at the start of the project on the "Branching, Commit, Merge Request, Ticket Closing" flow. Document the commit message convention (e.g., [Ticket-ID] Descriptive message). | 
+| **4. Python/ML Library Version Conflict** | A required preprocessing library is incompatible with onnxruntime in the Docker environment. | **Solution:** Define the versions of all dependencies. Use a clean Docker base image to strictly isolate dependencies. | 
